@@ -1,11 +1,9 @@
 from bottle import Bottle
 
-from api.http_ctrl import api_server
-from api.http_web import web_server
+from FeatureCloud.app.api.http_ctrl import api_server
+from FeatureCloud.app.api.http_web import web_server
 
-import apps.examples.dice
-
-from engine.app import app
+from FeatureCloud.app.engine.app import app
 
 server = Bottle()
 
