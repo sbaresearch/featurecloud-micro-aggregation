@@ -1,4 +1,8 @@
-# FeatureCloud App Template
+# FeatureCloud App Blank Template
+
+The app-blank template contains an initial state that does not execute any commands other than transitioning to the terminal state.
+This template is a starting point for implementing apps by adding more states and operations.
+ 
 
 For registering and testing your apps or using other apps, please visit
 [FeatureCloud.ai](https://featurecloud.ai/). And for more information about FeatureCloud architecture,
