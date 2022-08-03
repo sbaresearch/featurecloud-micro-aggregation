@@ -144,7 +144,7 @@ featurecloud app build featurecloud.ai/YOUR_APPLICATION
 
 Please provide example data so others can run YOUR_APPLICATION with the desired settings in the `config.yml` file.
 
-#### Running YOUR_APPLICATION in the test-bed
+#### Run YOUR_APPLICATION in the test-bed
 
 You can run YOUR_APPLICATION as a standalone app in the [FeatureCloud test-bed](https://featurecloud.ai/development/test) or [FeatureCloud Workflow](https://featurecloud.ai/projects). You can also run the app using CLI:
 
