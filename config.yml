@@ -1,0 +1,12 @@
+fc_anonymize_data: 
+  local_dataset:
+    data: data.csv
+    sep: ","
+  anonymization:
+    generalization_rules:
+      age: 
+    k: 
+    max_sup:
+    information_loss: 
+  result:
+    file: synthetic_data.csv

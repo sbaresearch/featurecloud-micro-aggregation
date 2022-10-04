@@ -2,3 +2,4 @@ venv
 .idea
 .gitignore
 .gitattributes
+app/executable
