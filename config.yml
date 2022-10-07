@@ -1,12 +1,7 @@
-fc_anonymize_data: 
+fc_anonymization_micro:
   local_dataset:
-    data: data.csv
-    sep: ","
-  anonymization:
-    generalization_rules:
-      age: 
-    k: 
-    max_sup:
-    information_loss: 
+    data: data.txt
+    config: properties1Adult.xml 
+    ontologies_folder: ontologies
   result:
-    file: synthetic_data.csv
+    file: anom_data.csv
