@@ -2,6 +2,6 @@ fc_anonymization_micro:
   local_dataset:
     data: data.txt
     config: properties1Adult.xml 
-    ontologies_folder: ontologies
+    ontologies_folder: ontologies #Optional
   result:
     file: anom_data.csv
