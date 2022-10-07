@@ -37,7 +37,6 @@ class LoadData(ConfigState.State):
             self.update(state=op_state.ERROR)
         if "ontologies_folder" in input_files:
             ontologies_folder = input_files['ontologies_folder'][0]
-            print(ontologies_folder)
         config_file= input_files['config'][0]
         config_file = self.modify_xml(config_file,ontologies_folder)
         return data_file, config_file
@@ -61,7 +60,7 @@ class LoadData(ConfigState.State):
         return config_file
 
     def anonymized_data(self,data_file,config_file):
-        output = subprocess.getoutput(f"java -jar -Xmx1024m -Xms1024m mAnt1.jar {data_file} {config_file} ")
+        output = subprocess.getoutput(f"java --add-opens=java.base/java.lang=ALL-UNNAMED -jar -Xmx1024m -Xms1024m mAnt1.jar {data_file} {config_file} ")
         print(output)
         file = data_file.split('/')[-1]
         file_name= file.split('.')[0] 
