@@ -49,4 +49,4 @@ The output data should include a CSV file containing the anonymized data.
 ## Resources
 
 [1]. David Sánchez, Sergio Martínez, Josep Domingo-Ferrer, Jordi Soria-Comas, Montserrat Batet,
-[µ-ANT: Semantic Microaggregation-based Anonymization Tool](https://doi.org/10.1093/bioinformatics/btz792) Bioinformatics, 2019.
+[µ-ANT: Semantic Microaggregation-based Anonymization Tool](https://doi.org/10.1093/bioinformatics/btz792), Bioinformatics, 2019.
