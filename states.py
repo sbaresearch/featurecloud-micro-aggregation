@@ -14,7 +14,7 @@ name="fc_anonymization_micro"
 class LoadData(ConfigState.State):
 
     def register(self):
-        self.register_transition('WriteAnonymizedData')  
+        self.register_transition('WriteResults')  
 
     def run(self):
         self.lazy_init()
@@ -25,14 +25,16 @@ class LoadData(ConfigState.State):
         output_file= f"{self.output_dir}/{self.config['result']['file']}"
         self.store('output_file', output_file)
         self.store('anonymized_data', df_anom)
-        return 'WriteAnonymizedData'  
+        return 'WriteResults'  
 
     def read_data(self):
         input_files = self.load('input_files')
         data_file = input_files['data'][0]
         format = data_file.split('.')[-1].strip()
+        self.store('format_data', format)
         ontologies_folder="/"
-        if format != 'txt':
+        formats=['txt','csv']
+        if format not in formats:
             self.log(f"The file format {format} is not supported", LogLevel.ERROR)
             self.update(state=op_state.ERROR)
         if "ontologies_folder" in input_files:
@@ -64,10 +66,12 @@ class LoadData(ConfigState.State):
         print(output)
         file = data_file.split('/')[-1]
         file_name= file.split('.')[0] 
-        df_anonymized= pd.read_csv(f'{file_name}_anom.txt')
+        format_data=self.load('format_data')
+        df_anonymized= pd.read_csv(f'{file_name}_anom.{format_data}')
         return df_anonymized
-        
-@app_state(name='WriteAnonymizedData', role=Role.BOTH)
+
+
+@app_state(name='WriteResults', role=Role.BOTH)
 class WriteResults(AppState):
     def register(self):
         self.register_transition('terminal', Role.BOTH)
@@ -76,5 +80,5 @@ class WriteResults(AppState):
         output_file=self.load('output_file')
         df_anom=self.load('anonymized_data')
         df_anom.to_csv(output_file, index=False)
-        print(df_anom.head())
+        print(df_anom.head(10))
         return 'terminal'
