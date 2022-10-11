@@ -31,7 +31,7 @@ fc_anonymization_micro:
 ### Config File Options 
 
 #### Local dataset
-The input data should include a txt file containing the dataset to be anonymized, an XML file containing the description of the attributes in the dataset and specifying the anonymization parameters and optionally, it can include an ontologies folder where the OWL ontologies for semantic attributes are located. 
+The input data should include a CSV file containing the dataset to be anonymized, an XML file containing the description of the attributes in the dataset and specifying the anonymization parameters and optionally, it can include an ontologies folder where the OWL ontologies for semantic attributes are located. 
 
 The XML configuration file is the main file for anonymization. The user can specify for each attribute: its name, the attribute type and the data type. Similarly, for each attribute type a protection method has to be assigned with their respective parameters. 
 
