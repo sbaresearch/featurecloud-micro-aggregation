@@ -14,7 +14,7 @@ name="fc_anonymization_micro"
 class LoadData(ConfigState.State):
 
     def register(self):
-        self.register_transition('WriteResults')  
+        self.register_transition('Microaggregation')  
 
     def run(self):
         self.lazy_init()
@@ -25,7 +25,7 @@ class LoadData(ConfigState.State):
         output_file= f"{self.output_dir}/{self.config['result']['file']}"
         self.store('output_file', output_file)
         self.store('anonymized_data', df_anom)
-        return 'WriteResults'  
+        return 'Microaggregation'  
 
     def read_data(self):
         input_files = self.load('input_files')
@@ -71,8 +71,8 @@ class LoadData(ConfigState.State):
         return df_anonymized
 
 
-@app_state(name='WriteResults', role=Role.BOTH)
-class WriteResults(AppState):
+@app_state(name='Microaggregation', role=Role.BOTH)
+class Microaggregation(AppState):
     def register(self):
         self.register_transition('terminal', Role.BOTH)
 
