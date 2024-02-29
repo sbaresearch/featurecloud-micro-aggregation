@@ -39,12 +39,14 @@ The possible attribute types are identifier, quasi-identifier, confidential and 
 
 The possible data types include numeric_discrete, numeric_continuous, date, categoric and semantic. For semactic attributes, please provide the name of the file containing the OWL ontology in the ontologies folder. For instance, consider the attribute 'workclass' with an ontology file "workclass-ontology.owl" inside the folder set in the config.yml for ontologies, then in the XML, it should be included as indicated below:
 
+```
 <attribute
 			name="workclass"
 			attribute_type="quasi_identifier"
 			data_type="semantic"
 			ontology="workclass-ontology.owl">
 </attribute>
+```
 
 The protection methods include: suppression, k-anonymity and t-closeness. For attributes without protection use not.
 
