@@ -41,10 +41,10 @@ The possible data types include numeric_discrete, numeric_continuous, date, cate
 
 ```xml
 <attribute
-			name="workclass"
-			attribute_type="quasi_identifier"
-			data_type="semantic"
-			ontology="workclass-ontology.owl">
+  name="workclass"
+  attribute_type="quasi_identifier"
+  data_type="semantic"
+  ontology="workclass-ontology.owl">
 </attribute>
 ```
 
