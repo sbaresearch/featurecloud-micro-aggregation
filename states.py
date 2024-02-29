@@ -1,35 +1,46 @@
 from FeatureCloud.app.engine.app import AppState, app_state, Role, LogLevel
 from FeatureCloud.app.engine.app import State as op_state
-from CustomStates import ConfigState
 import subprocess
 import pandas as pd
+import bios
 from bs4 import BeautifulSoup
 
+INPUT_DIR = 'mnt/input'
+OUTPUT_DIR = 'mnt/output'
+
+INITIAL_STATE = 'initial'
+WRITE_STATE = 'Microaggregation'
+TERMINAL_STATE = 'terminal'
+
 # App name
-name="fc_anonymization_micro"
+app_name="fc_anonymization_micro"
 
 # FeatureCloud requires that apps define the at least the 'initial' state.
 # This state is executed after the app instance is started.
-@app_state('initial', role=Role.BOTH, app_name=name)
-class LoadData(ConfigState.State):
+@app_state(INITIAL_STATE)
+class InitialState(AppState):
 
     def register(self):
-        self.register_transition('Microaggregation')  
+        self.register_transition(WRITE_STATE)  
 
     def run(self):
-        self.lazy_init()
+        print('Loading config...')
         self.read_config()
-        self.finalize_config()
+        print('Loading data and XML config...')
         data_file, config_file= self.read_data()
+        print(config_file)
         df_anom=self.anonymized_data(data_file, config_file)
-        output_file= f"{self.output_dir}/{self.config['result']['file']}"
+        output_file= f"{OUTPUT_DIR}/{self.config['result']['file']}"
         self.store('output_file', output_file)
         self.store('anonymized_data', df_anom)
         return 'Microaggregation'  
+    
+    def read_config(self):
+        print(bios.read(f'{INPUT_DIR}/config.yml'))
+        self.config = bios.read(f'{INPUT_DIR}/config.yml')[app_name]
 
     def read_data(self):
-        input_files = self.load('input_files')
-        data_file = input_files['data'][0]
+        data_file = f"{INPUT_DIR}/{self.config['local_dataset']['data']}"
         format = data_file.split('.')[-1].strip()
         self.store('format_data', format)
         ontologies_folder="/"
@@ -37,9 +48,9 @@ class LoadData(ConfigState.State):
         if format not in formats:
             self.log(f"The file format {format} is not supported", LogLevel.ERROR)
             self.update(state=op_state.ERROR)
-        if "ontologies_folder" in input_files:
-            ontologies_folder = input_files['ontologies_folder'][0]
-        config_file= input_files['config'][0]
+        if "ontologies_folder" in self.config['local_dataset']:
+            ontologies_folder = f"{INPUT_DIR}/{self.config['local_dataset']['ontologies_folder']}"
+        config_file = f"{INPUT_DIR}/{self.config['local_dataset']['config']}"
         config_file = self.modify_xml(config_file,ontologies_folder)
         return data_file, config_file
         
@@ -71,14 +82,15 @@ class LoadData(ConfigState.State):
         return df_anonymized
 
 
-@app_state(name='Microaggregation', role=Role.BOTH)
+@app_state(name=WRITE_STATE, role=Role.BOTH)
 class Microaggregation(AppState):
     def register(self):
-        self.register_transition('terminal', Role.BOTH)
+        self.register_transition(TERMINAL_STATE, Role.BOTH)
 
     def run(self):
         output_file=self.load('output_file')
         df_anom=self.load('anonymized_data')
         df_anom.to_csv(output_file, index=False)
+        print("Anonymized Data Successfully Created!")
         print(df_anom.head(10))
-        return 'terminal'
+        return TERMINAL_STATE
